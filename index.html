@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+
+        <title>Image colors example</title>
+        
+        <script src="./ImageColors.js"></script>
+        <style>
+                html,body{
+                        width:100%;
+                        height:100%;
+                        overflow: hidden;
+                }
+                .img-title{
+                        width:100%;
+                        height:40px;
+                        line-height: 40px;
+                        text-align: center;
+                        color:blueviolet;
+                        font-size: 40px;
+                        font-weight: 600;
+                        text-shadow: 0ch;
+                        -webkit-text-stroke: 1px red;
+                        -moz-text-stroke: 1px red;
+                        position: fixed;
+                        top:0px;
+                        left:0px;
+                        z-index:1;
+                }
+                #input-image{
+                        position:absolute;
+                        top:40px;
+                        left:0px;
+                }
+                #image-loaded{
+                        max-width:350px;
+                        max-height:350px;
+                        position:absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                }
+                img{
+                        max-width:350px;
+                        max-height:350px;   
+                }
+        </style>
+       
+</head>
+
+<body>
+        <div class="img-title">Random Text</div>
+        <input type="file" id="input-image" name="image" accept="image/*">
+        <div id="image-loaded">
+                <img src="./00000.jpg" alt="image">
+        </div>
+
+        <script>
+                window.onload = (async()=>{
+                        window.imageColors = new ImageColors();
+                        let url = "./00000.jpg";
+                        let colors = await imageColors.getColors(url);
+                        updateEnvironment(colors);
+
+                        // File reader to have a proper URL
+                        let fileReader = new FileReader();
+                        fileReader.onload = async (event)=>{
+                                let img = document.querySelector("#image-loaded img");
+                                img.src = event.target.result;
+                                let newColors = await imageColors.getColors(event.target.result);
+                                updateEnvironment(newColors);
+                        }
+
+                        // Input change to be able to load any image
+                        let input = document.querySelector("#input-image");
+                        input.addEventListener("change", async(event)=>{
+                                let file = event.target.files[0];
+                                fileReader.readAsDataURL(file);
+                        })
+                        
+                        return;
+                        
+                        // function that change the color of the background and text given a certain array
+                        function updateEnvironment(colorsArray){
+                                console.log('color 0', colorsArray[0].color.r,colorsArray[0].color.g,colorsArray[0].color.b);
+                                console.log('color 1', colorsArray[1].color.r,colorsArray[1].color.g,colorsArray[1].color.b);
+
+
+                                document.body.style.backgroundColor = `rgb(${colorsArray[0].color.r},${colorsArray[0].color.g},${colorsArray[0].color.b})`;
+                                
+                                let title = document.querySelector(".img-title");
+                                title.style.color = `rgb(${colorsArray[1].color.r},${colorsArray[1].color.g},${colorsArray[1].color.b})`;
+                                let outlineColorRed = (colorsArray[1].color.r > 122) ? colorsArray[1].color.r - 30 : colorsArray[1].color.r + 30;
+                                let outlineColorGreen = (colorsArray[1].color.g > 122) ? colorsArray[1].color.g - 30 : colorsArray[1].color.g + 30;
+                                let outlineColorBlue = (colorsArray[1].color.b > 122) ? colorsArray[1].color.b - 30 : colorsArray[1].color.b + 30;
+                                title.style["-webkit-text-stroke"] = `1px rgb(${outlineColorRed},${outlineColorGreen},${outlineColorBlue})`;
+                                title.style["-moz-text-stroke"] = `1px rgb(${outlineColorRed},${outlineColorGreen},${outlineColorBlue})`;
+                        }
+                })
+        
+        </script>
+</body>
+
+</html>
