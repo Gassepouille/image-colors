@@ -1,0 +1,16 @@
+{
+        "name": "@gassepouille/image-colors",
+        "version": "1.0.0",
+        "description": "Get main colors values from an image",
+        "license": "MIT",
+        "homepage": "https://github.com/Gassepouille/image-colors",
+        "repository": "gassepouille/image-colors",
+        "main": "ImageColors.js",
+        "keywords": [
+                "image",
+                "colors",
+                "npm",
+                "package",
+                "gassepouille"
+        ]
+}

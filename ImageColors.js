@@ -127,3 +127,19 @@ class ImageColors {
                 }
         }
 }
+
+// UMD (Universal Module Definition)
+(function (root) {
+        if (typeof define === 'function' && define.amd) {
+                // AMD
+                define([], function () {
+                        return ImageColors;
+                });
+        } else if (typeof module !== 'undefined' && typeof exports === 'object') {
+                // Node.js
+                module.exports = ImageColors;
+        } else if (root !== undefined) {
+                // Global variable
+                root.ImageColors = ImageColors;
+        }
+})(this);
