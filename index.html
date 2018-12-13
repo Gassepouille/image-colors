@@ -54,13 +54,15 @@
         <div class="img-title">Random Text</div>
         <input type="file" id="input-image" name="image" accept="image/*">
         <div id="image-loaded">
-                <img src="./00000.jpg" alt="image">
+                <img src="./sample.jpg" alt="image">
         </div>
 
         <script>
                 window.onload = (async()=>{
-                        window.imageColors = new ImageColors();
-                        let url = "./00000.jpg";
+                        window.imageColors = new ImageColors({
+                                removeMainBlack:true
+                        });
+                        let url = "./sample.jpg";
                         let colors = await imageColors.getColors(url);
                         updateEnvironment(colors);
 
@@ -84,6 +86,7 @@
                         
                         // function that change the color of the background and text given a certain array
                         function updateEnvironment(colorsArray){
+                                console.log(colorsArray);
                                 console.log('color 0', colorsArray[0].color.r,colorsArray[0].color.g,colorsArray[0].color.b);
                                 console.log('color 1', colorsArray[1].color.r,colorsArray[1].color.g,colorsArray[1].color.b);
 
